@@ -1,10 +1,17 @@
 <?php
 
+namespace Application\Model\Comment;
+
+use Application\Lib\DatabaseConnection;
+
+use PDO;
+
 class Comment
 {
     public string $author;
     public string $frenchCreationDate;
     public string $comment;
+    public string $identifier;
 }
 
 class CommentRepository
@@ -24,7 +31,7 @@ class CommentRepository
             $comment->author = $row['author'];
             $comment->frenchCreationDate = $row['french_creation_date'];
             $comment->comment = $row['comment'];
-
+            $comment->identifier = $row['id'];
             $comments[] = $comment;
         }
 
@@ -38,6 +45,17 @@ class CommentRepository
             'INSERT INTO comments(post_id, author, comment, comment_date) VALUES(?, ?, ?, NOW())'
         );
         $affectedLines = $statement->execute([$post, $author, $comment]);
+
+        return ($affectedLines > 0);
+    }
+
+    public function modifyComment(string $commentId, string $comment)
+    {
+        $this->commentDbConnect();
+        $statement = $this->database->getConnection()->prepare(
+            'UPDATE comments SET comment = ? WHERE id = ?'
+        );
+        $affectedLines = $statement->execute([$comment, $commentId]);
 
         return ($affectedLines > 0);
     }

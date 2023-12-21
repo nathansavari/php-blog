@@ -37,6 +37,7 @@
                     <a class="author"><?= htmlspecialchars($comment->author) ?></a>
                     <div class="metadata">
                         <span class="date">le <?= $comment->frenchCreationDate ?></span>
+                        (<a href="index.php?action=modifyComment&id=<?= $comment->identifier ?>&postId=<?= $post->identifier ?>">modifier</a>)
                     </div>
                     <div class="text">
                         <?= nl2br(htmlspecialchars($comment->comment)) ?>

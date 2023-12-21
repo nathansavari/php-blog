@@ -1,5 +1,9 @@
 <?php
 
+namespace Application\Lib;
+
+use PDO;
+
 class DatabaseConnection
 {
     public ?PDO $database = null;
@@ -7,7 +11,7 @@ class DatabaseConnection
     public function getConnection(): PDO
     {
         if ($this->database === null) {
-            $this->database = new PDO('mysql:host=localhost;dbname=;charset=utf8', '', '');
+            $this->database = new PDO();
         }
 
         return $this->database;
